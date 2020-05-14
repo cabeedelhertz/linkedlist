@@ -20,6 +20,18 @@ Node* createNode(void* item){
 
 // Insert new item at the end of list.
 void insertAtTail(List* list_pointer, void* item){
+	Node * node;
+	node = createNode((void*)item);
+
+	//if list is empty.
+	if(list_pointer->head == NULL) {
+		list_pointer->head = node;
+		list_pointer->tail = node;
+	} else {
+		list_pointer->tail->next  = node;
+		list_pointer->tail 	= list_pointer->tail->next;
+	}		
+	/*
 	Node* new_tail = createNode(item);
 	if(list_pointer->head == NULL){
 		list_pointer->head = new_tail;
@@ -28,10 +40,23 @@ void insertAtTail(List* list_pointer, void* item){
 	
 	list_pointer->tail->next = new_tail;
 	list_pointer->tail = new_tail;
+	*/
 }
 
 // Insert item at start of the list.
 void insertAtHead(List* list_pointer, void* item){
+	Node * node;
+	node = createNode(item);
+
+	//if list is empty.
+	if(list_pointer->head == NULL) {
+		list_pointer->head = node;
+		list_pointer->tail = node;
+	} else {
+		node->next 	= list_pointer->head;
+		list_pointer->head 	= node;
+	}		
+	/*
 	Node* new_head = createNode(item);
 	if(list_pointer->head == NULL){
 		list_pointer->head = new_head;
@@ -39,9 +64,32 @@ void insertAtHead(List* list_pointer, void* item){
 	}
 	new_head->next = list_pointer->head;
 	list_pointer->head = new_head;
+	*/
 }
 // Insert item at a specified index.
 void insertAtIndex(List* list_pointer, int index, void* item){
+	Node * to_insert;
+	to_insert = createNode(item);
+
+  	int i = 0;
+  	Node* prev;
+  	Node* node = list_pointer->head;
+  	while (node != NULL) {
+    	if (i == index) {
+      		prev->next = to_insert;
+      		to_insert->next = node;
+      		return;
+    	} 
+		else if (i > index) {
+      		return;
+    	} 
+		else {
+      		i++;
+      		prev = node;
+      		node = node->next;
+    	}
+  	}	
+	/*
 	Node* new_node = createNode(item);
 	Node* current = list_pointer->head;
 	if(index == 0){
@@ -56,10 +104,37 @@ void insertAtIndex(List* list_pointer, int index, void* item){
 		new_node->next = right_node;
 		left_node->next = new_node;
 	}
+	*/
 }
 
 // Remove item from the end of list and return a reference to it
 void* removeTail(List* list_pointer){
+	Node * temp;
+	int i = 0;
+
+	void* item;
+
+	if(list_pointer->tail == NULL) {	
+		// List is Empty	
+		return NULL;
+	}
+	else {
+		temp = list_pointer->head;
+
+		// Iterate to the end of the list
+		while(temp->next != list_pointer->tail) { 
+			temp = temp->next;
+		}
+
+		item = list_pointer->tail->item;
+
+		Node* old_tail = list_pointer->tail;
+		list_pointer->tail = temp;
+		list_pointer->tail->next = NULL;	
+		free(old_tail);	
+	}	
+	return item;
+	/*
 	if(list_pointer->head == NULL){
 		return list_pointer->head->item;
 	}
@@ -73,6 +148,7 @@ void* removeTail(List* list_pointer){
 	free(current->next);
 	list_pointer->tail = current;
 	return removed;
+	*/
 }
 
 // Remove item from start of list and return a reference to it
@@ -87,6 +163,27 @@ void* removeHead(List* list_pointer){
 
 // Insert item at a specified index and return a reference to it
 void* removeAtIndex(List* list_pointer, int index){
+	int i = 0;
+  	Node* prev;
+  	Node* node = list_pointer->head;
+  	while (node != NULL) {
+    	if (i == index) {
+      		prev->next = node->next;
+			void* item = node->item;
+			free(node);
+      		return item;
+    	} 
+		else if (i > index) {
+      		// List is too short
+			return NULL;
+    	} 
+		else {
+      		i++;
+      		prev = node;
+      		node = node->next;
+    	}
+  	}	
+	/*
 	Node* current = list_pointer->head;
 	if(index == 0){
 		void* removed = removeHead(list_pointer);
@@ -104,7 +201,7 @@ void* removeAtIndex(List* list_pointer, int index){
 		left_node->next = right_node;
 		return removed;
 	}
-
+	*/
 }
 
 // Return item at index
