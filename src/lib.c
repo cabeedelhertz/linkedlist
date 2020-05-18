@@ -7,6 +7,7 @@
 void initList(List* list_pointer){
 	list_pointer->head = NULL;
 	list_pointer->tail = NULL;
+	
 }
 	
 // Create node containing item, return reference of it.
