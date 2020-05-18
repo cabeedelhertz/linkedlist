@@ -7,7 +7,6 @@
 void initList(List* list_pointer){
 	list_pointer->head = NULL;
 	list_pointer->tail = NULL;
-
 }
 	
 // Create node containing item, return reference of it.
@@ -222,7 +221,7 @@ void* itemAtIndex(List* list_pointer, int index){
 void printList(List* list) {
 	Node* node;
 
-  // Handle an empty node. Just print a message.
+  // Handle an empty node. Just print a message
 	if(list->head == NULL) {
 		printf("\nEmpty List");
 		return;
